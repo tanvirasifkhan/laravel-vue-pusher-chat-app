@@ -22,7 +22,6 @@ class StoreChatMessageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "sender_id"=> "required|integer|exists:users,id",
             "receiver_id"=> "required|integer|exists:users,id",
             "message"=> "required|string"
         ];

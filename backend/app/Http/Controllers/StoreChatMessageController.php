@@ -28,12 +28,20 @@ class StoreChatMessageController extends Controller
      */
     public function __invoke(StoreChatMessageRequest  $storeChatMessageRequest): JsonResponse
     {
-        $message = $this->chatMessageRepository->store($storeChatMessageRequest->validated());
+        if(auth()->id() != $storeChatMessageRequest->validated()['receiver_id']) {
+            $message = $this->chatMessageRepository->store($storeChatMessageRequest->validated());
 
-        return $this->successResponse(
-            successMessage: "Chat message sent successfully.",
-            statusCode: 201,
-            data: new ChatMessageResource($message)
-        );
+            return $this->successResponse(
+                successMessage: "Chat message sent successfully.",
+                statusCode: 201,
+                data: new ChatMessageResource($message)
+            );
+        }else {
+            return $this->errorResponse(
+                errorMessage:"Sender and receiver can not be the same.",
+                statusCode: 403,
+                data: null
+            );
+        }        
     }
 }

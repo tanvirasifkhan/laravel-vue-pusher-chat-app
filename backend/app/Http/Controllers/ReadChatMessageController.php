@@ -26,7 +26,7 @@ class ReadChatMessageController extends Controller
      */
     public function __invoke(Request $request): JsonResponse
     {
-        $messages = $this->chatMessageRepository->get($request->sender_id, $request->receiver_id);
+        $messages = $this->chatMessageRepository->get($request->receiver_id);
 
         return $this->successResponse(            
             successMessage: "Chat messages retrieved successfully.",

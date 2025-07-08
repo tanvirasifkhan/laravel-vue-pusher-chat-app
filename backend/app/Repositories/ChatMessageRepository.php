@@ -11,13 +11,12 @@ class ChatMessageRepository implements ChatMessageInterface
     /**
      * Get chat messages between two users
      *
-     * @param int $senderId
      * @param int $receiverId
      * @return array
      */
-    public function get(int $senderId, int $receiverId): Collection
+    public function get(int $receiverId): Collection
     {
-        return ChatMessage::where("sender_id", $senderId)
+        return ChatMessage::where("sender_id", auth()->id())
             ->where("receiver_id",  $receiverId)->get();
     }
 
@@ -29,6 +28,10 @@ class ChatMessageRepository implements ChatMessageInterface
      */
     public function store(array $chatMessageData): ChatMessage
     {
-        return ChatMessage::create($chatMessageData);
+        return ChatMessage::create([
+            "sender_id"=> auth()->id(),
+            "receiver_id"=> $chatMessageData["receiver_id"],
+            "message"=> $chatMessageData["message"],
+        ]);
     }
 }
