@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OnChatMessageSent;
 use App\Http\Requests\StoreChatMessageRequest;
 use App\Http\Resources\ChatMessageResource;
 use App\Repositories\ChatMessageRepository;
@@ -30,6 +31,8 @@ class StoreChatMessageController extends Controller
     {
         if(auth()->id() != $storeChatMessageRequest->validated()['receiver_id']) {
             $message = $this->chatMessageRepository->store($storeChatMessageRequest->validated());
+
+            OnChatMessageSent::dispatch($message);
 
             return $this->successResponse(
                 successMessage: "Chat message sent successfully.",
