@@ -2,7 +2,9 @@ FROM php:8.4.10-alpine3.22
 
 RUN apk update && apk upgrade && apk add git bash
 
-RUN docker-php-ext-install pdo pdo_mysql
+RUN docker-php-ext-install pdo pdo_mysql pcntl
+
+RUN docker-php-ext-configure pcntl --enable-pcntl
 
 RUN curl -sS https://getcomposer.org/installer | php -- \ 
     --install-dir=/usr/local/bin --filename=composer
