@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Http\Resources\UserResource;
 use App\Models\ChatMessage;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -36,5 +37,15 @@ class OnChatMessageSent implements ShouldBroadcastNow
         return [
             new PrivateChannel('chat-' . $this->chatMessage->receiver_id),
         ];
+    }
+
+    /**
+     * The event's broadcast name.
+     * 
+     * @return string
+     */
+    public function broadcastAs(): string
+    {
+        return 'chat.message.sent';
     }
 }
