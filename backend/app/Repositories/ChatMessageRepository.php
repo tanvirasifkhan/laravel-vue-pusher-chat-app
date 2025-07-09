@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Interfaces\ChatMessageInterface;
 use App\Models\ChatMessage;
 use Illuminate\Database\Eloquent\Collection;
+use App\Models\User;
 
 class ChatMessageRepository implements ChatMessageInterface
 {
@@ -18,6 +19,17 @@ class ChatMessageRepository implements ChatMessageInterface
     {
         return ChatMessage::where("sender_id", auth()->id())
             ->where("receiver_id",  $receiverId)->get();
+    }
+
+    /**
+     * Get the receiver user of a chat message
+     * 
+     * @param int $receiverId
+     * @return \App\Models\User
+     */
+    public function getReceiver(int $receiverId): User
+    {
+        return User::where("id", $receiverId)->first();
     }
 
     /**

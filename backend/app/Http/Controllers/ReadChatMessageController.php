@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ChatMessageResource;
+use App\Http\Resources\UserResource;
 use App\Repositories\ChatMessageRepository;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
@@ -28,10 +29,15 @@ class ReadChatMessageController extends Controller
     {
         $messages = $this->chatMessageRepository->get($request->receiver_id);
 
+        $receiver = $this->chatMessageRepository->getReceiver($request->receiver_id);
+
         return $this->successResponse(            
             successMessage: "Chat messages retrieved successfully.",
             statusCode: 200,
-            data: ChatMessageResource::collection($messages)
+            data: [
+                "receiver"=> new UserResource($receiver),
+                "messages"=> ChatMessageResource::collection($messages),
+            ]
         );
     }
 }
