@@ -45,83 +45,11 @@
             <div class="flex items-start justify-between">
                 <nav class="w-4/12 h-[500px] border-r-2 border-gray-100 overflow-y-scroll">
                     <ul class="divide-y divide-gray-100">
-                        <li>
+                        <li v-for="user in authStore.registeredUsers" :key="user.id">
                             <a href="" class="px-4 py-2 block hover:bg-emerald-50">
                                 <div class="flex flex-col items-start space-x-2">
-                                    <p class="text-gray-500 font-semibold font-roboto">Tanvir Ahmed</p>
-                                    <p class="text-gray-500 text-base font-roboto">tanvir.ahmed@gmail.com</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="" class="px-4 py-2 block hover:bg-emerald-50">
-                                <div class="flex flex-col items-start space-x-2">
-                                    <p class="text-gray-500 font-semibold font-roboto">Tanvir Ahmed</p>
-                                    <p class="text-gray-500 text-base font-roboto">tanvir.ahmed@gmail.com</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="" class="px-4 py-2 block hover:bg-emerald-50">
-                                <div class="flex flex-col items-start space-x-2">
-                                    <p class="text-gray-500 font-semibold font-roboto">Tanvir Ahmed</p>
-                                    <p class="text-gray-500 text-base font-roboto">tanvir.ahmed@gmail.com</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="" class="px-4 py-2 block hover:bg-emerald-50">
-                                <div class="flex flex-col items-start space-x-2">
-                                    <p class="text-gray-500 font-semibold font-roboto">Tanvir Ahmed</p>
-                                    <p class="text-gray-500 text-base font-roboto">tanvir.ahmed@gmail.com</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="" class="px-4 py-2 block hover:bg-emerald-50">
-                                <div class="flex flex-col items-start space-x-2">
-                                    <p class="text-gray-500 font-semibold font-roboto">Tanvir Ahmed</p>
-                                    <p class="text-gray-500 text-base font-roboto">tanvir.ahmed@gmail.com</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="" class="px-4 py-2 block hover:bg-emerald-50">
-                                <div class="flex flex-col items-start space-x-2">
-                                    <p class="text-gray-500 font-semibold font-roboto">Tanvir Ahmed</p>
-                                    <p class="text-gray-500 text-base font-roboto">tanvir.ahmed@gmail.com</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="" class="px-4 py-2 block hover:bg-emerald-50">
-                                <div class="flex flex-col items-start space-x-2">
-                                    <p class="text-gray-500 font-semibold font-roboto">Tanvir Ahmed</p>
-                                    <p class="text-gray-500 text-base font-roboto">tanvir.ahmed@gmail.com</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="" class="px-4 py-2 block hover:bg-emerald-50">
-                                <div class="flex flex-col items-start space-x-2">
-                                    <p class="text-gray-500 font-semibold font-roboto">Tanvir Ahmed</p>
-                                    <p class="text-gray-500 text-base font-roboto">tanvir.ahmed@gmail.com</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="" class="px-4 py-2 block hover:bg-emerald-50">
-                                <div class="flex flex-col items-start space-x-2">
-                                    <p class="text-gray-500 font-semibold font-roboto">Tanvir Ahmed</p>
-                                    <p class="text-gray-500 text-base font-roboto">tanvir.ahmed@gmail.com</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="" class="px-4 py-2 block hover:bg-emerald-50">
-                                <div class="flex flex-col items-start space-x-2">
-                                    <p class="text-gray-500 font-semibold font-roboto">Tanvir Ahmed</p>
-                                    <p class="text-gray-500 text-base font-roboto">tanvir.ahmed@gmail.com</p>
+                                    <p class="text-gray-500 font-semibold font-roboto">{{ user.name }}</p>
+                                    <p class="text-gray-500 text-base font-roboto">{{ user.email }}</p>
                                 </div>
                             </a>
                         </li>

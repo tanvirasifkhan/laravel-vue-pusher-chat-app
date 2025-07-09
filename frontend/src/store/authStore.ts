@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { login, logout, register } from "../api/auth"
-import { ref } from "vue"
+import { ref, type Ref } from "vue"
 
 export interface AuthModel {
     id: number,
@@ -34,6 +34,8 @@ export const useAuthStore = defineStore("auth", ()=> {
 
     const getToken = (): string | null => getUser()?.token || null
 
+    const registeredUsers: Ref<RegisteredUserModel[]> = ref([])
+
     const errors = ref<any>({})
 
     const errorMessage = ref<string>("")
@@ -46,7 +48,9 @@ export const useAuthStore = defineStore("auth", ()=> {
         try{
             const response = await login(user)
             
-            setUser(response.data?.data)
+            setUser(response.data?.data?.authenticatedUser)
+
+            registeredUsers.value = response.data?.data?.users
 
             if(response.data?.successMessage && response.data?.data !== null) {
                 successMessage.value = response.data?.successMessage
@@ -73,7 +77,9 @@ export const useAuthStore = defineStore("auth", ()=> {
         try{
             const response = await register(user)
             
-            setUser(response.data?.data)
+            setUser(response.data?.data?.authenticatedUser)
+
+            registeredUsers.value = response.data?.data?.users
 
             if(response.data?.successMessage && response.data?.data !== null) {
                 successMessage.value = response.data?.successMessage
@@ -111,6 +117,7 @@ export const useAuthStore = defineStore("auth", ()=> {
     return {
         getToken,
         getUser,
+        registeredUsers,
         errors,
         successMessage,
         errorMessage,

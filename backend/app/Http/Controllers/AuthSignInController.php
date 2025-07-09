@@ -39,7 +39,10 @@ class AuthSignInController extends Controller
             return $this->successResponse(
                 successMessage:"Loggedin successfully.",
                 statusCode: 200,
-                data: new AuthResource($user)
+                data: [
+                    "users"=> $this->authRepository->getUsers(),
+                    "authenticatedUser"=> new AuthResource($user)
+                ]
             );
         }else {
             return $this->errorResponse(

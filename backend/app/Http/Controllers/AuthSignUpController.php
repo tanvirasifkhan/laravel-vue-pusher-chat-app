@@ -37,7 +37,10 @@ class AuthSignUpController extends Controller
             return $this->successResponse(
                 successMessage: "Signed up successfully.",
                 statusCode: 201,
-                data: new AuthResource($user)
+                data: [
+                    "users"=> $this->authRepository->getUsers(),
+                    "authenticatedUser"=> new AuthResource($user)
+                ]
             );
         } else {
             return $this->errorResponse(
