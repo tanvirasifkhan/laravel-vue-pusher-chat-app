@@ -27,6 +27,14 @@ const routes: RouteRecordRaw[] = [
         meta: {
             requiresAuth: true
         }
+    },
+    {
+        path: '/chat/:receiverId',
+        component: ChatRoom,
+        name: 'chat_messages',
+        meta: {
+            requiresAuth: true
+        }
     }
 ]
 

@@ -1,6 +1,7 @@
 import { defineStore } from "pinia"
 import { login, logout, register, registeredUserList } from "../api/auth"
 import { ref, type Ref } from "vue"
+import { useChatMessageStore } from "./chatMessageStore"
 
 export interface AuthModel {
     id: number,
@@ -46,6 +47,8 @@ export const useAuthStore = defineStore("auth", ()=> {
 
     const isAuthenticated = (): boolean => getUser() !== null
 
+    const chatMessageStore = useChatMessageStore()
+
     const signIn = async (user: LoginUserModel) => {
         try{
             const response = await login(user)
@@ -53,6 +56,8 @@ export const useAuthStore = defineStore("auth", ()=> {
             setUser(response.data?.data?.authenticatedUser)
 
             registeredUsers.value = response.data?.data?.users
+
+            chatMessageStore.selectedUser = null
 
             if(response.data?.successMessage && response.data?.data !== null) {
                 successMessage.value = response.data?.successMessage
@@ -82,6 +87,8 @@ export const useAuthStore = defineStore("auth", ()=> {
             setUser(response.data?.data?.authenticatedUser)
 
             registeredUsers.value = response.data?.data?.users
+
+            chatMessageStore.selectedUser = null
 
             if(response.data?.successMessage && response.data?.data !== null) {
                 successMessage.value = response.data?.successMessage
