@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { login, logout, register } from "../api/auth"
+import { login, logout, register, registeredUserList } from "../api/auth"
 import { ref, type Ref } from "vue"
 
 export interface AuthModel {
@@ -35,6 +35,8 @@ export const useAuthStore = defineStore("auth", ()=> {
     const getToken = (): string | null => getUser()?.token || null
 
     const registeredUsers: Ref<RegisteredUserModel[]> = ref([])
+
+    const loadingRegisteredUsers = ref<boolean>(false)
 
     const errors = ref<any>({})
 
@@ -102,6 +104,18 @@ export const useAuthStore = defineStore("auth", ()=> {
         }
     }
 
+    const getRegisteredUsers = async () => {
+        loadingRegisteredUsers.value = true
+
+        try{
+            const response = await registeredUserList(getToken() as string)
+            registeredUsers.value = response.data.data
+            loadingRegisteredUsers.value = false
+        }catch(error: any) {
+            console.log(error)
+        }
+    }
+
     const signOut = async () => {
         try{
             const response = await logout(getToken() as string)            
@@ -124,6 +138,8 @@ export const useAuthStore = defineStore("auth", ()=> {
         isAuthenticated,
         signIn,
         signUp,
+        loadingRegisteredUsers,
+        getRegisteredUsers,
         signOut
     }
 })

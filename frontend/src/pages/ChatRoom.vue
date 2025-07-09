@@ -27,6 +27,8 @@
             router.push({ name: 'signin' })
         }
     })
+
+    onMounted(async () => await authStore.getRegisteredUsers())
 </script>
 
 <template>
@@ -42,8 +44,10 @@
                     <button type="button" @click.prevent="logout" class="font-roboto text-white bg-red-500 rounded-2xl px-4 py-2 cursor-pointer">Sign Out</button>
                 </div>
             </div>
-            <div class="flex items-start justify-between">
-                <nav class="w-4/12 h-[500px] border-r-2 border-gray-100 overflow-y-scroll">
+            <div class="flex" :class="authStore.loadingRegisteredUsers || authStore.registeredUsers.length === 0 ? 'items-center justify-center' : 'items-start justify-between'">
+                <h1 v-if="authStore.loadingRegisteredUsers" class="text-lg text-gray-500 font-roboto text-center">Loading users...</h1>
+                <h1 v-else-if="authStore.registeredUsers.length === 0" class="text-gray-500 font-roboto text-center">No user found to chat</h1>
+                <nav v-else class="w-4/12 h-[500px] border-r-2 border-gray-100 overflow-y-scroll">
                     <ul class="divide-y divide-gray-100">
                         <li v-for="user in authStore.registeredUsers" :key="user.id">
                             <a href="" class="px-4 py-2 block hover:bg-emerald-50">
