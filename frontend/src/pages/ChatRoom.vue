@@ -1,8 +1,31 @@
 <script setup lang="ts">
     import { onMounted } from 'vue'
+    import { useAuthStore } from '../store/authStore'
+    import { useRouter } from 'vue-router'
+    import { useToast } from 'vue-toast-notification'
+
+    const authStore = useAuthStore()
+    const router = useRouter()
+    const $toast = useToast()
+
+    const logout = async () => {
+        try{
+            await authStore.signOut()
+            router.push({ name: 'signin' })
+            $toast.success(authStore.successMessage)
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     onMounted(()=> {
         document.title = "ChatRoom - Chat Messages"
+    })
+
+    onMounted(() => {
+        if (!authStore.isAuthenticated()) {
+            router.push({ name: 'signin' })
+        }
     })
 </script>
 
@@ -13,10 +36,10 @@
                 <h1 class="text-center text-4xl text-emerald-500 font-roboto">Chat<strong class="font-bold">Room</strong></h1>
                 <div class="flex items-center justify-between space-x-6">
                     <div class="flex flex-col items-start space-x-2">
-                        <p class="text-gray-500 font-semibold font-roboto">Tanvir Ahmed</p>
-                        <p class="text-gray-500 text-base font-roboto">tanvir.ahmed@gmail.com</p>
+                        <p class="text-gray-500 font-semibold font-roboto">{{ authStore.getUser()?.name }}</p>
+                        <p class="text-gray-500 text-base font-roboto">{{ authStore.getUser()?.email }}</p>
                     </div>
-                    <button type="button" class="font-roboto text-white bg-red-500 rounded-2xl px-4 py-2 cursor-pointer">Sign Out</button>
+                    <button type="button" @click.prevent="logout" class="font-roboto text-white bg-red-500 rounded-2xl px-4 py-2 cursor-pointer">Sign Out</button>
                 </div>
             </div>
             <div class="flex items-start justify-between">
