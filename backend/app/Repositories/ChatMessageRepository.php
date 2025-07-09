@@ -12,13 +12,18 @@ class ChatMessageRepository implements ChatMessageInterface
     /**
      * Get chat messages between two users
      *
-     * @param int $receiverId
+     * @param int $userId
      * @return array
      */
-    public function get(int $receiverId): Collection
+    public function get(int $userId): Collection
     {
-        return ChatMessage::where("sender_id", auth()->id())
-            ->where("receiver_id",  $receiverId)->get();
+        return ChatMessage::where(function ($query) use ($userId) {
+            $query->where("sender_id", auth()->id())
+                ->where("receiver_id", $userId);
+        })->orWhere(function ($query) use ($userId) {
+            $query->where("sender_id", $userId)
+                ->where("receiver_id", auth()->id());
+        })->orderBy("id","asc")->with(['sender', 'receiver'])->get();
     }
 
     /**

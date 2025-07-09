@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 interface ChatMessageInterface
 {
-    public function get(int $receiverId): Collection;
+    public function get(int $userId): Collection;
 
     public function getReceiver(int $receiverId): User;
     
