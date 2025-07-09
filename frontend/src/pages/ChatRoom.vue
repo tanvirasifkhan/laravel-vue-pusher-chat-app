@@ -45,8 +45,12 @@
                 </div>
             </div>
             <div class="flex" :class="authStore.loadingRegisteredUsers || authStore.registeredUsers.length === 0 ? 'items-center justify-center' : 'items-start justify-between'">
-                <h1 v-if="authStore.loadingRegisteredUsers" class="text-lg text-gray-500 font-roboto text-center">Loading users...</h1>
-                <h1 v-else-if="authStore.registeredUsers.length === 0" class="text-gray-500 font-roboto text-center">No user found to chat</h1>
+                <div class="w-4/12" v-if="authStore.loadingRegisteredUsers">
+                    <h1 class="text-lg text-gray-500 font-roboto text-center">Loading users...</h1>
+                </div>
+                <div class="w-4/12" v-else-if="authStore.registeredUsers.length === 0">
+                    <h1 class="text-gray-500 font-roboto text-center">No user found to chat</h1>
+                </div>                
                 <nav v-else class="w-4/12 h-[500px] border-r-2 border-gray-100 overflow-y-scroll">
                     <ul class="divide-y divide-gray-100">
                         <li v-for="user in authStore.registeredUsers" :key="user.id">
