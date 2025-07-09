@@ -3,7 +3,7 @@ import './assets/main.css'
 import App from './App.vue'
 import ToastPlugin from 'vue-toast-notification'
 import 'vue-toast-notification/dist/theme-bootstrap.css'
-import { router } from './routes'
+import router from './routes'
 import { createPinia } from 'pinia'
 import { configureEcho } from "@laravel/echo-vue"
  
