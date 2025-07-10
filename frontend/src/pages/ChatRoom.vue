@@ -4,6 +4,7 @@
     import { useChatMessageStore } from '../store/chatMessageStore'
     import { useRoute, useRouter } from 'vue-router'
     import { useToast } from 'vue-toast-notification'
+    import { useEcho } from '@laravel/echo-vue'
     
     const authStore = useAuthStore()
     const chatMessageStore = useChatMessageStore()
@@ -11,7 +12,7 @@
     const route = useRoute()
     const $toast = useToast()
 
-    const message: Ref<string> = ref('')
+    const inputMessage: Ref<string> = ref('')
 
     onMounted(()=> {
         document.title = "ChatRoom - Chat Messages"
@@ -23,15 +24,11 @@
         }
     })
 
-    onMounted(async () => {
-        await authStore.getRegisteredUsers()        
-    })
-
     onMounted(() => {
         if(chatMessageStore.selectedUser === null) {
             router.push({ name: 'chat'})
         }
-    })
+    })    
 
     const logout = async () => {
         try{
@@ -47,14 +44,22 @@
         try {
             const newMessage = {
                 receiver_id: Number.parseInt(route.params.receiverId.toString()),
-                message: message.value
+                message: inputMessage.value
             }
             await chatMessageStore.sendNewMessage(newMessage)
-            message.value = ''            
+            inputMessage.value = ''
+            chatMessageStore.scrollToBottom('messagesContainer')
         } catch (error) {
             console.error(error)
         }       
-    }    
+    }  
+
+    onMounted(async () => await authStore.getRegisteredUsers())     
+
+    useEcho(`chat.${authStore.getUser()?.id}`, ".chat.message.sent", (event: any) => {
+        chatMessageStore.chatMessages.push(event.message)
+        chatMessageStore.scrollToBottom('messagesContainer')
+    })
 </script>
 
 <template>
@@ -101,7 +106,7 @@
                     <div v-if="!chatMessageStore.loadingMessages && chatMessageStore.chatMessages.length === 0" class="h-96 flex flex-col items-center justify-center">
                         <p class="text-lg text-gray-500 font-roboto text-center">No Message Found</p>
                     </div>
-                    <div v-if="!chatMessageStore.loadingMessages && chatMessageStore.chatMessages.length > 0" class="h-96 flex flex-col overflow-y-scroll">
+                    <div id="messagesContainer" v-if="!chatMessageStore.loadingMessages && chatMessageStore.chatMessages.length > 0" class="h-96 flex flex-col overflow-y-scroll">
                         <ul v-for="message in chatMessageStore.chatMessages" :key="message.id"
                          class="flex flex-col space-y-1" :class="message.sender?.id === authStore.getUser()?.id ? 'items-end justify-end' : 'items-start'">
                             <li class="mx-5 my-1.5">
@@ -111,7 +116,7 @@
                         </ul>
                     </div>
                     <form @submit.prevent="sendMessage" class="flex border-t border-b border-gray-300 bg-gray-50 p-4 items-center space-x-3">
-                        <input type="text" v-model="message" class="text-gray-600 text-lg w-9/12 font-roboto outline-0 focus:ring-2 focus:ring-emerald-300 border-2 border-gray-200 px-3 py-1.5 rounded-xl" placeholder="What's on your mind ?">
+                        <input type="text" v-model="inputMessage" class="text-gray-600 text-lg w-9/12 font-roboto outline-0 focus:ring-2 focus:ring-emerald-300 border-2 border-gray-200 px-3 py-1.5 rounded-xl" placeholder="What's on your mind ?">
                         <button type="submit" class="text-white font-roboto w-3/12 rounded-2xl cursor-pointer bg-emerald-600 px-4 py-2.5" autocomplete="off">Send</button>
                     </form>
                     <!-- <p class="font-roboto text-gray-500 text-sm"><strong>Asif Khan</strong> is typing...</p> -->

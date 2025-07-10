@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Http\Resources\ChatMessageResource;
 use App\Http\Resources\UserResource;
 use App\Models\ChatMessage;
 use Illuminate\Broadcasting\Channel;
@@ -47,5 +48,17 @@ class OnChatMessageSent implements ShouldBroadcastNow
     public function broadcastAs(): string
     {
         return 'chat.message.sent';
+    }
+
+    /**
+     * The data to broadcast with the event.
+     *
+     * @return array
+     */
+    public function broadcastWith(): array
+    {
+        return [
+            'message' => new ChatMessageResource($this->chatMessage),
+        ];
     }
 }

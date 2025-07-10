@@ -32,6 +32,13 @@ export const useChatMessageStore = defineStore('chatMessage', () => {
 
     const authStore = useAuthStore()
 
+    const scrollToBottom = (id: string) => {
+        const messagesContainer = document.getElementById(id)
+        if (messagesContainer) {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight
+        }
+    }
+
     const getChatMessages = async (receiverId: number) => {
         loadingMessages.value = true
 
@@ -40,6 +47,7 @@ export const useChatMessageStore = defineStore('chatMessage', () => {
             chatMessages.value = response.data?.data?.messages
             selectedUser.value = response.data?.data?.receiver
             loadingMessages.value = false
+            scrollToBottom('messagesContainer')
         } catch (error) {
             console.error(error)
         } finally {
@@ -61,6 +69,7 @@ export const useChatMessageStore = defineStore('chatMessage', () => {
         loadingMessages,
         selectedUser,
         getChatMessages,
-        sendNewMessage
+        sendNewMessage,
+        scrollToBottom
     }
 })

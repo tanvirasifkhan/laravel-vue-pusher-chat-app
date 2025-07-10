@@ -32,7 +32,7 @@ class StoreChatMessageController extends Controller
         if(auth()->id() != $storeChatMessageRequest->validated()['receiver_id']) {
             $message = $this->chatMessageRepository->store($storeChatMessageRequest->validated());
 
-            OnChatMessageSent::dispatch($message);
+            broadcast(new OnChatMessageSent($message));
 
             return $this->successResponse(
                 successMessage: "Chat message sent successfully.",
