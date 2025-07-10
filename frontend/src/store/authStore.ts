@@ -2,6 +2,7 @@ import { defineStore } from "pinia"
 import { login, logout, register, registeredUserList } from "../api/auth"
 import { ref, type Ref } from "vue"
 import { useChatMessageStore } from "./chatMessageStore"
+import { configureEcho } from "@laravel/echo-vue"
 
 export interface AuthModel {
     id: number,
@@ -25,6 +26,27 @@ export interface RegisterUserModel {
     name: string,
     email: string,
     password: string
+}
+
+export const loadEchoConfig = (token: string | null) => {
+    return configureEcho({
+        broadcaster: "reverb",      
+        appId: import.meta.env.VITE_REVERB_APP_ID,
+        appSecret: import.meta.env.VITE_REVERB_APP_SECRET,
+        key: import.meta.env.VITE_REVERB_APP_KEY,
+        wsHost: import.meta.env.VITE_REVERB_HOST,
+        wsPort: import.meta.env.VITE_REVERB_PORT,
+        wssPort: import.meta.env.VITE_REVERB_PORT,
+        forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') === 'https',
+        enabledTransports: ['ws', 'wss'],
+        authEndpoint: import.meta.env.VITE_REVERB_AUTH_ENDPOINT,
+        auth: {
+            headers: {
+                Authorization: "Bearer " + token,
+                Accept: "application/json"
+            }
+        }
+    })
 }
 
 export const useAuthStore = defineStore("auth", ()=> {

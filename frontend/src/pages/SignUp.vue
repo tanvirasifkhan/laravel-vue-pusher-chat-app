@@ -4,6 +4,7 @@
     import { useRouter } from 'vue-router'
     import { useToast } from 'vue-toast-notification'
     import { type RegisterUserModel } from '../store/authStore'
+    import { loadEchoConfig } from '../store/authStore'
 
     const authStore = useAuthStore()
     const router = useRouter()
@@ -14,6 +15,8 @@
     const register = async () => {
         try {
             await authStore.signUp(user.value)
+
+            loadEchoConfig(authStore.getToken())
 
             if (Object.keys(authStore.errors).length === 0) {
                 user.value = {} as RegisterUserModel

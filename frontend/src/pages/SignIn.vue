@@ -4,6 +4,7 @@
     import { type LoginUserModel } from '../store/authStore'
     import { useToast } from 'vue-toast-notification'
     import { useRouter } from 'vue-router'
+    import { loadEchoConfig } from '../store/authStore'
 
     const authStore = useAuthStore()
     const router = useRouter()
@@ -14,6 +15,8 @@
     const login = async () => {
         try {
             await authStore.signIn(user.value)
+
+            loadEchoConfig(authStore.getToken())
             
             if(Object.keys(authStore.errors).length === 0) {
                 user.value = {} as LoginUserModel
@@ -44,7 +47,7 @@
 <template>
     <div class="flex flex-col items-center justify-center h-screen space-x-4">
         <h1 class="text-center text-4xl text-emerald-500 mb-10 font-roboto">Chat<strong class="font-bold">Room</strong></h1>
-        <div class="w-3/12 bg-white border border-gray-200 shadow rounded-2xl">
+        <div class="sm:w-5/12 xs:w-3/12 md:w-5/12 lg:w-4/12 xl:w-3/12 bg-white border border-gray-200 shadow rounded-2xl">
             <div class="border-b border-b-gray-200">
                 <h2 class="text-xl text-center text-gray-700 py-3 font-roboto">Sign In</h2>
             </div>

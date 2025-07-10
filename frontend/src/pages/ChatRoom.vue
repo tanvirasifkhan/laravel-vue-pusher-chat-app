@@ -5,6 +5,7 @@
     import { useRoute, useRouter } from 'vue-router'
     import { useToast } from 'vue-toast-notification'
     import { useEcho } from '@laravel/echo-vue'
+    import { loadEchoConfig } from '../store/authStore'
     
     const authStore = useAuthStore()
     const chatMessageStore = useChatMessageStore()
@@ -17,6 +18,8 @@
     onMounted(()=> {
         document.title = "ChatRoom - Chat Messages"
     })
+
+    loadEchoConfig(authStore.getToken())
 
     onMounted(() => {
         if (!authStore.isAuthenticated()) {
