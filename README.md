@@ -127,15 +127,16 @@ Now access your `phpMyadmin` panel inside your browser on port `localhost/phpmya
 
 **Follow the commands**
 
-1. `cd backend` and run `php artisan optimize:clear` and then `php artisan migrate` to run the database migration
+1. `cd backend` and run `php artisan migrate` to run the database migration and then run `php artisan optimize:clear` to clear all the cache. Finally run `php artisan serve` command to run the server at `localhost:8000`.
 2. **Very Important** open another tab and `cd backend` and run `php artisan reverb:start --debug` to run the websocket server. Keep in mind that, if you do not run this command realtime chat will not work
-3. You can register as a user from the frontend. But you can create some dummy user by running this command `php artisan db:seed`. There will be 3 users created with the following credentials.
+
+3. `cd frontend` and run `npm run dev` to run the frontend in the browser at `localhost:5173` address.  
+
+4. You can register as a user from the frontend. But you can create some dummy user by running this command `php artisan db:seed`. There will be 3 users created with the following credentials.
  -> Email : asif.khan@gmail.com and Password: asifkhan
  -> Email: rubel.hasan@gmail.com and Password: rubel
  -> Email: tanvir.ahmed@gmail.com and Password: tanvir
 By the way this command also creates some dummy chat messages too. You can login using one of these dummy users.
-
-4. `cd frontend` and run `npm run dev` to run the frontend in the browser at `localhost:5173` address.  
 
 You can now play around with the application.  
 
