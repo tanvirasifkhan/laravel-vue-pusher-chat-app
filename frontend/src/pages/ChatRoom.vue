@@ -112,9 +112,14 @@
                     <div id="messagesContainer" v-if="!chatMessageStore.loadingMessages && chatMessageStore.chatMessages.length > 0" class="h-96 flex flex-col overflow-y-scroll">
                         <ul v-for="message in chatMessageStore.chatMessages" :key="message.id"
                          class="flex flex-col space-y-1" :class="message.sender?.id === authStore.getUser()?.id ? 'items-end justify-end' : 'items-start'">
-                            <li class="mx-5 my-1.5">
-                                <p :class="message.sender?.id === authStore.getUser()?.id ? 'text-white bg-emerald-400' : 'text-gray-700 bg-gray-200'" class="font-roboto text-base rounded-3xl px-3 py-1">{{ message.message }}</p>
-                                <p class="font-roboto text-[8px] text-gray-500 text-right">{{ message.datetime }}</p>
+                            <li class="mx-5 my-1.5 flex space-x-2">
+                                <div>
+                                    <p :class="message.sender?.id === authStore.getUser()?.id ? 'text-white bg-emerald-400' : 'text-gray-700 bg-gray-200'" class="font-roboto text-base rounded-3xl px-3 py-1">{{ message.message }}</p>
+                                    <p class="font-roboto text-[8px] text-gray-500 text-right">{{ message.datetime }}</p>
+                                </div>
+                                <div :class="message.sender?.id === authStore.getUser()?.id ? 'bg-emerald-100' : 'bg-gray-200'" class="rounded-full flex items-center justify-center w-8 h-8">
+                                    <p :class="message.sender?.id === authStore.getUser()?.id ? 'text-emerald-500' : 'text-gray-500'" class="text-emerald-500 text-xs font-semibold font-roboto">{{ message.sender?.name.charAt(0) }}</p>
+                                </div>
                             </li>
                         </ul>
                     </div>
