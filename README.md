@@ -133,9 +133,9 @@ Now access your `phpMyadmin` panel inside your browser on port `localhost/phpmya
 3. `cd frontend` and run `npm run dev` to run the frontend in the browser at `localhost:5173` address.  
 
 4. You can register as a user from the frontend. But you can create some dummy user by running this command `php artisan db:seed`. There will be 3 users created with the following credentials.
-  1. Email : asif.khan@gmail.com and Password: asifkhan
-  2. Email: rubel.hasan@gmail.com and Password: rubel
-  3. Email: tanvir.ahmed@gmail.com and Password: tanvir
+  * Email : asif.khan@gmail.com and Password: asifkhan
+  * Email: rubel.hasan@gmail.com and Password: rubel
+  * Email: tanvir.ahmed@gmail.com and Password: tanvir
 By the way this command also creates some dummy chat messages too. You can login using one of these dummy users.
 
 You can now play around with the application.  
