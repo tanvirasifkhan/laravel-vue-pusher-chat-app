@@ -136,6 +136,7 @@ Now access your `phpMyadmin` panel inside your browser on port `localhost/phpmya
   * Email : asif.khan@gmail.com and Password: asifkhan
   * Email: rubel.hasan@gmail.com and Password: rubel
   * Email: tanvir.ahmed@gmail.com and Password: tanvir
+  
 By the way this command also creates some dummy chat messages too. You can login using one of these dummy users.
 
 You can now play around with the application.  
